@@ -1,0 +1,12 @@
+{
+    "name": "massi/rock-paper-scissors",
+    "description": "Nicecactus test, this is a game of Rock, Paper and Scissors",
+    "authors": [
+        {
+            "name": "massinissa2k",
+            "email": "massinissa2k@hotmail.fr"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
