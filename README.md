@@ -2,10 +2,12 @@
 game of Rock, Paper and Scissors
 
 ### Prerequisites
-    composer 1.9.1, php 7.4
+    composer 1.9.1, php 7.4, npm 6.13.4, node 12.14.1, typescript 3.7.4
 
 ## Install
     composer install
+    npm i
+    npm run build
 
 ## Run
     composer run-script serve

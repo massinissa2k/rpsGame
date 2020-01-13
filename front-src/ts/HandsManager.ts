@@ -1,30 +1,30 @@
-class HandsManager extends SVGLoader {
-    
+import SVGLoader from "./SVGLoader";
+import ProjectCustomEvent from "./ProjectCustomEvent";
+import Main from "../Main";
+
+export default class HandsManager extends SVGLoader {
+
+    public events: ProjectCustomEvent;
+    private handsContainer: HTMLDivElement;
+    private handsResultContainer: HTMLDivElement;
+    private continueBtn: HTMLButtonElement;
+    private handsResult: HTMLDivElement;
+    private gameResult: HTMLDivElement;
+    private readonly handsElement: { [key: string]: HTMLDivElement } = {};
+
     constructor() {
-        super([
-            "paper",
-            "rock",
-            "scissors",
-        ]);
+        super(Main.config.svgHands);
 
         this.handClick = this.handClick.bind(this);
         this.events = new ProjectCustomEvent();
-        this.handsContainer = document.querySelector(".hands");
-        this.handsResultContainer = document.querySelector(".hands-result-container");
-        this.continueBtn = this.handsResultContainer.querySelector(".continue-btn");
-        this.handsResult = this.handsResultContainer.querySelector(".hands-result");
-        this.gameResult = this.handsResultContainer.querySelector(".game-result");
-        
-        /**
-         * @type {Object.<string, HTMLDivElement>}
-         */
-        this.handsElement = {};
+        this.handsContainer = document.querySelector(".hands") as HTMLDivElement;
+        this.handsResultContainer = document.querySelector(".hands-result-container") as HTMLDivElement;
+        this.continueBtn = this.handsResultContainer.querySelector(".continue-btn") as HTMLButtonElement;
+        this.handsResult = this.handsResultContainer.querySelector(".hands-result") as HTMLDivElement;
+        this.gameResult = this.handsResultContainer.querySelector(".game-result") as HTMLDivElement;
     }
 
-    /**
-     * @public
-     */
-    async init() {
+    public async init(): Promise<HandsManager> {
         await super.init();
         this.continueBtn.addEventListener("click", () => {
             this.events.fire("onContinue", {});
@@ -32,13 +32,8 @@ class HandsManager extends SVGLoader {
         return this;
     }
 
-    /**
-     * @public
-     * @param {boolean} visible 
-     * @param {string} textContent 
-     */
-    toggleToResult(visible, textContent) {
-        if(visible === true) {
+    public toggleToResult(visible: boolean, textContent: string = ""): void {
+        if (visible === true) {
             this.gameResult.textContent = textContent;
             this.handsContainer.classList.remove("visible");
             setTimeout(() => {
@@ -61,16 +56,12 @@ class HandsManager extends SVGLoader {
         }, 400);
     }
 
-    /**
-     * @public
-     * @param {string[]} hands 
-     */
-    displayHandsResult(hands) {
-        while(this.handsResult.hasChildNodes()) {
-            this.handsResult.removeChild(this.handsResult.firstChild);
+    public displayHandsResult(hands: string[]): void {
+        while (this.handsResult.hasChildNodes()) {
+            this.handsResult.removeChild(this.handsResult.firstChild as HTMLElement);
         }
 
-        for(let i = 0, len = hands.length; i < len; i++) {
+        for (let i = 0, len = hands.length; i < len; i++) {
             const name = hands[i];
             const container = document.createElement("div");
             container.setAttribute("title", name.toUpperCase());
@@ -81,29 +72,20 @@ class HandsManager extends SVGLoader {
         }
     }
 
-    /**
-     * @public
-     */
-    createHands() {
+    public createHands(): void {
         this.createHandByName("rock");
         this.createHandByName("paper");
         this.createHandByName("scissors");
     }
 
-    /**
-     * @public
-     */
-    removeHands() {
+    //@ts-ignore
+    private removeHands(): void {
         this.removeHandByName("rock");
         this.removeHandByName("paper");
         this.removeHandByName("scissors");
     }
 
-    /**
-     * @public
-     * @param {string} name 
-     */
-    createHandByName(name) {
+    private createHandByName(name: string): void {
         const container = document.createElement("div");
         this.handsElement[name] = container;
         container.setAttribute("title", name.toUpperCase());
@@ -114,26 +96,18 @@ class HandsManager extends SVGLoader {
         container.addEventListener("click", this.handClick);
     }
 
-    /**
-     * @public
-     * @param {string} name 
-     */
-    removeHandByName(name) {
+    private removeHandByName(name: string): void {
         this.handsElement[name].removeEventListener("click", this.handClick);
         try {
-            this.handsElement[name].parentElement.removeChild(this.handsElement[name]);
-        } catch(e) {
+            (this.handsElement[name].parentElement as HTMLElement).removeChild(this.handsElement[name]);
+        } catch (e) {
             //no parentElement
         }
     }
 
-    /**
-     * @private
-     * @param {MouseEvent} e 
-     */
-    handClick(e) {
+    private handClick(e: MouseEvent): void {
         e.preventDefault();
-        const handType = e.currentTarget.getAttribute("data-hand");
-        this.events.fire("handSelect", {handType: handType});
+        const handType = (e.currentTarget as HTMLElement).getAttribute("data-hand");
+        this.events.fire("handSelect", { handType: handType });
     }
 }

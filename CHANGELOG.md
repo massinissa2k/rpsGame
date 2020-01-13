@@ -1,7 +1,11 @@
 # Changelog
 
 ## [Unreleased]
-    
+
+## [1.2.0]
+    - Webpack,
+    - TypeScript
+
 ## [1.0.0]
     - Autoloader
     - Astract Main
