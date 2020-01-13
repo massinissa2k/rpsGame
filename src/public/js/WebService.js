@@ -35,11 +35,13 @@ class WebService {
      * @param {string} handName 
      */
     async playerHasPlayed(data) {
-        return await this.fetchGet({
+        
+        data = Object.assign({
             webservice: true,
             method: "playerHasPlayed",
-            ...data,
-        });
+        }, data);
+
+        return await this.fetchGet(data);
     }
 }
 
