@@ -50,7 +50,7 @@ class Main {
             message = "You win :)";
             this.playerWinCount++;
         } else if(res.gameResult.win === -1) {
-            message = "You loos :(";
+            message = "You lose :(";
             this.computerWinCount++;
         }
 
