@@ -40,7 +40,7 @@ class Main {
      * @param {{detail: {data: *}}} e 
      */
     async playerHasPlayed(e) {
-        let message = "You loos :(";
+        let message = "Draw !";
         const res = await this.webService.playerHasPlayed(e.detail.data);
         this.randomBtnElement.classList.remove("visible");
         const hands = [res.gameResult.player, res.gameResult.enemy];
@@ -49,9 +49,8 @@ class Main {
         if(res.gameResult.win === 1) {
             message = "You win :)";
             this.playerWinCount++;
-        } else if(res.gameResult.win === 0) {
-            message = "Draw !";
-        } else {
+        } else if(res.gameResult.win === -1) {
+            message = "You loos :(";
             this.computerWinCount++;
         }
 
