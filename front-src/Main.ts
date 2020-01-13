@@ -9,8 +9,6 @@ require('./css/style.css');
 require('file-loader?name=[name].[ext]!./index.html');
 
 
-console.log(paperSvg);
-
 export default class Main {
 
     public static readonly config = {
